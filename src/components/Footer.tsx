@@ -1,19 +1,12 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 const Footer: React.FC = () => {
-  return (
-    <footer className="bg-brand-navy text-white py-8 mt-16">
+  return <footer className="bg-brand-navy text-white py-8 mt-16">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <img 
-              src="/lovable-uploads/c86cdcf2-ee05-4bd8-a17a-8267e61d313d.png" 
-              alt="House of Foods" 
-              className="h-16 mb-4"
-            />
-            <p className="text-sm">Just like mom made.</p>
+            <img src="/lovable-uploads/c86cdcf2-ee05-4bd8-a17a-8267e61d313d.png" alt="House of Foods" className="h-16 mb-4" />
+            <p className="text-sm">Just like mom made!</p>
           </div>
           
           <div>
@@ -53,8 +46,6 @@ const Footer: React.FC = () => {
           <p className="text-sm">© 2023 House of Foods. All rights reserved.</p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
