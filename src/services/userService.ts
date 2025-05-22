@@ -16,7 +16,7 @@ export const generateOTP = (): string => {
 };
 
 // Store OTP in localStorage with phone number as key (in real app, this should be done server-side)
-export const storeOTP = (phone: string, otp: string): void => {
+export const storeOTP = (phone: string, otp: string): string => {
   localStorage.setItem(`otp_${phone}`, otp);
   // In a real application, this would send an SMS to the user
   console.log(`OTP for ${phone}: ${otp}`);
