@@ -36,7 +36,7 @@ const Header: React.FC = () => {
             Contact
           </Link>
           <Link to="/cart" className="relative">
-            <Button variant="outline" className="flex items-center gap-2 bg-brand-beige text-transparent">
+            <Button variant="outline" className="flex items-center gap-2 bg-brand-beige text-brand-navy">
               <ShoppingCart size={20} />
               <span>Cart</span>
               {getCartCount() > 0 && <span className="absolute -top-2 -right-2 bg-brand-yellow text-brand-navy text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
