@@ -1,12 +1,9 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import CategorySection from '@/components/CategorySection';
-
 const Home: React.FC = () => {
-  return (
-    <div>
+  return <div>
       {/* Hero Section */}
       <section className="bg-brand-yellow py-16">
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
@@ -14,9 +11,7 @@ const Home: React.FC = () => {
             <h1 className="text-4xl md:text-5xl font-bold text-brand-navy mb-4">
               Delicious Homemade Sweets & Savouries
             </h1>
-            <p className="text-xl md:text-2xl text-brand-navy mb-8">
-              Just like mom made.
-            </p>
+            <p className="text-xl md:text-2xl text-brand-navy mb-8">Just like mom made!</p>
             <Link to="/menu">
               <Button className="bg-brand-navy hover:bg-opacity-80 text-white px-8 py-6 text-lg">
                 Order Now
@@ -24,11 +19,7 @@ const Home: React.FC = () => {
             </Link>
           </div>
           <div className="md:w-1/2 flex justify-center">
-            <img 
-              src="/placeholder.svg" 
-              alt="Delicious Homemade Sweets" 
-              className="max-h-80 rounded-lg shadow-lg"
-            />
+            <img src="/placeholder.svg" alt="Delicious Homemade Sweets" className="max-h-80 rounded-lg shadow-lg" />
           </div>
         </div>
       </section>
@@ -40,18 +31,8 @@ const Home: React.FC = () => {
             Shop by Category
           </h2>
           <div className="space-y-8">
-            <CategorySection 
-              title="Sweets" 
-              description="Indulge in our range of traditional sweets made with pure ingredients and authentic recipes passed down through generations." 
-              image="/placeholder.svg"
-              link="/menu?category=sweets"
-            />
-            <CategorySection 
-              title="Savouries" 
-              description="Enjoy the perfect crunch and flavor of our savory snacks, prepared with premium ingredients and careful attention to taste." 
-              image="/placeholder.svg"
-              link="/menu?category=savouries"
-            />
+            <CategorySection title="Sweets" description="Indulge in our range of traditional sweets made with pure ingredients and authentic recipes passed down through generations." image="/placeholder.svg" link="/menu?category=sweets" />
+            <CategorySection title="Savouries" description="Enjoy the perfect crunch and flavor of our savory snacks, prepared with premium ingredients and careful attention to taste." image="/placeholder.svg" link="/menu?category=savouries" />
           </div>
         </div>
       </section>
@@ -86,8 +67,6 @@ const Home: React.FC = () => {
           </div>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default Home;
