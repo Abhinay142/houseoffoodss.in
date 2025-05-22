@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '@/contexts/CartContext';
@@ -11,8 +10,11 @@ const Cart: React.FC = () => {
     name: '',
     phone: '',
     email: '',
-    address: '',
-    deliveryDate: '',
+    flatNo: '',
+    building: '',
+    area: '',
+    city: '',
+    pinCode: '',
     paymentMethod: 'cod'
   });
 
@@ -40,10 +42,13 @@ const Cart: React.FC = () => {
       description: "Your order has been placed and will be processed soon.",
     });
     
+    // Construct full address from address components
+    const fullAddress = `${formData.flatNo}, ${formData.building}, ${formData.area}, ${formData.city}, ${formData.pinCode}`;
+    
     // Simulate order confirmation and redirect to WhatsApp
     setTimeout(() => {
-      const message = `Hello! I just placed an order with House of Foods.\n\nOrder Details:\n${cartItems.map(item => `${item.quantity}x ${item.product.name} (${item.size})`).join('\n')}\n\nTotal: ₹${getCartTotal()}\n\nName: ${formData.name}\nPhone: ${formData.phone}\nDelivery on: ${formData.deliveryDate}`;
-      const whatsappUrl = `https://wa.me/919876543210?text=${encodeURIComponent(message)}`;
+      const message = `Hello! I just placed an order with House of Foods.\n\nOrder Details:\n${cartItems.map(item => `${item.quantity}x ${item.product.name} (${item.size})`).join('\n')}\n\nTotal: ₹${getCartTotal()}\n\nName: ${formData.name}\nPhone: ${formData.phone}\nAddress: ${fullAddress}`;
+      const whatsappUrl = `https://wa.me/916304226513?text=${encodeURIComponent(message)}`;
       window.open(whatsappUrl, '_blank');
       clearCart();
       window.location.href = '/thank-you';
@@ -176,31 +181,69 @@ const Cart: React.FC = () => {
                     required
                   />
                 </div>
+                
+                {/* Detailed Address Fields */}
                 <div>
-                  <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">Delivery Address</label>
-                  <textarea
-                    id="address"
-                    name="address"
-                    rows={3}
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-yellow"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="deliveryDate" className="block text-sm font-medium text-gray-700 mb-1">Delivery Date</label>
+                  <label htmlFor="flatNo" className="block text-sm font-medium text-gray-700 mb-1">Flat/House No.</label>
                   <input
-                    type="date"
-                    id="deliveryDate"
-                    name="deliveryDate"
-                    value={formData.deliveryDate}
+                    type="text"
+                    id="flatNo"
+                    name="flatNo"
+                    value={formData.flatNo}
                     onChange={handleInputChange}
-                    min={new Date().toISOString().split('T')[0]}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-yellow"
                     required
                   />
                 </div>
+                <div>
+                  <label htmlFor="building" className="block text-sm font-medium text-gray-700 mb-1">Building/Society</label>
+                  <input
+                    type="text"
+                    id="building"
+                    name="building"
+                    value={formData.building}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-yellow"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="area" className="block text-sm font-medium text-gray-700 mb-1">Area/Locality</label>
+                  <input
+                    type="text"
+                    id="area"
+                    name="area"
+                    value={formData.area}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-yellow"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">City</label>
+                  <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-yellow"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="pinCode" className="block text-sm font-medium text-gray-700 mb-1">PIN Code</label>
+                  <input
+                    type="text"
+                    id="pinCode"
+                    name="pinCode"
+                    value={formData.pinCode}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-yellow"
+                    required
+                  />
+                </div>
+                
                 <div>
                   <label htmlFor="paymentMethod" className="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
                   <select

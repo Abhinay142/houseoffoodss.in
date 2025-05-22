@@ -3,7 +3,7 @@ import React from 'react';
 
 const WhatsAppButton: React.FC = () => {
   const openWhatsApp = () => {
-    window.open('https://wa.me/919876543210?text=Hi,%20I%20would%20like%20to%20know%20more%20about%20House%20of%20Foods%20products.', '_blank');
+    window.open('https://wa.me/916304226513?text=Hi,%20I%20would%20like%20to%20know%20more%20about%20House%20of%20Foods%20products.', '_blank');
   };
 
   return (

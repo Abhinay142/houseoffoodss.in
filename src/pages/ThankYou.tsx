@@ -13,7 +13,7 @@ const ThankYou: React.FC = () => {
           Your order has been placed successfully. We have sent you a confirmation message on WhatsApp.
         </p>
         <p className="text-gray-600 mb-8">
-          If you have any questions about your order, feel free to contact us via WhatsApp or call us at 9876543210.
+          If you have any questions about your order, feel free to contact us via WhatsApp or call us at 6304226513.
         </p>
         <Link to="/">
           <Button className="bg-brand-yellow hover:bg-yellow-500 text-brand-navy">
