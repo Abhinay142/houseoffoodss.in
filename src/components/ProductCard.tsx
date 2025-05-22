@@ -1,10 +1,16 @@
 
 import React, { useState } from 'react';
 import { Button } from './ui/button';
-import { Plus } from 'lucide-react';
+import { Plus, ShoppingCart } from 'lucide-react';
 import { Product } from '../data/products';
 import { useCart } from '../contexts/CartContext';
 import { toast } from '@/hooks/use-toast';
+import { Link } from 'react-router-dom';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 interface ProductCardProps {
   product: Product;
@@ -14,6 +20,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [selectedSize, setSelectedSize] = useState<'250g' | '500g' | '1kg'>('250g');
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
+  const [showCartPopover, setShowCartPopover] = useState(false);
 
   const handleAddToCart = () => {
     addToCart(product, quantity, selectedSize);
@@ -22,10 +29,18 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       description: `${quantity} × ${product.name} (${selectedSize}) added to your cart.`,
       duration: 3000,
     });
+    
+    // Show the cart popover
+    setShowCartPopover(true);
+    
+    // Automatically hide the popover after 5 seconds
+    setTimeout(() => {
+      setShowCartPopover(false);
+    }, 5000);
   };
 
   return (
-    <div className="product-card bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="product-card bg-white rounded-lg shadow-md overflow-hidden relative">
       <div className="h-48 bg-gray-200 flex items-center justify-center">
         <img 
           src={product.image} 
@@ -97,6 +112,24 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <Plus size={16} />
           Add to Cart
         </Button>
+        
+        {/* Cart Popover */}
+        {showCartPopover && (
+          <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white border border-gray-200 rounded-lg shadow-lg px-5 py-3 flex items-center justify-between gap-4 z-50 animate-fade-in">
+            <div className="flex items-center gap-2">
+              <ShoppingCart size={20} className="text-brand-navy" />
+              <span>Item added to cart</span>
+            </div>
+            <Link to="/cart">
+              <Button 
+                className="bg-brand-yellow hover:bg-yellow-500 text-brand-navy"
+                onClick={() => setShowCartPopover(false)}
+              >
+                Go to Cart
+              </Button>
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );
