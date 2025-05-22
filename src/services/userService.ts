@@ -20,11 +20,14 @@ export const storeOTP = (phone: string, otp: string): void => {
   localStorage.setItem(`otp_${phone}`, otp);
   // In a real application, this would send an SMS to the user
   console.log(`OTP for ${phone}: ${otp}`);
+  // For testing purposes, return the OTP
+  return otp;
 };
 
 // Verify the OTP
 export const verifyOTP = (phone: string, enteredOTP: string): boolean => {
   const storedOTP = localStorage.getItem(`otp_${phone}`);
+  console.log(`Verifying OTP: stored=${storedOTP}, entered=${enteredOTP}`);
   if (storedOTP === enteredOTP) {
     // Clear OTP after successful verification
     localStorage.removeItem(`otp_${phone}`);

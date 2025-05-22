@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import { toast } from '@/hooks/use-toast';
 import { generateOTP, storeOTP, verifyOTP } from '@/services/userService';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 interface PhoneVerificationProps {
   onVerified: (phone: string) => void;
@@ -15,6 +16,8 @@ const PhoneVerification: React.FC<PhoneVerificationProps> = ({ onVerified }) => 
   const [otpSent, setOtpSent] = useState(false);
   const [enteredOTP, setEnteredOTP] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [testOTP, setTestOTP] = useState('');
+  const [showTestOTP, setShowTestOTP] = useState(false);
 
   const handleSendOTP = () => {
     if (phoneNumber.length !== 10 || !/^\d+$/.test(phoneNumber)) {
@@ -31,15 +34,17 @@ const PhoneVerification: React.FC<PhoneVerificationProps> = ({ onVerified }) => 
     // Generate and store OTP
     const otp = generateOTP();
     storeOTP(phoneNumber, otp);
+    setTestOTP(otp); // Store OTP for testing display
     
     // In a real application, an API call would be made to send the OTP via SMS
     
     setTimeout(() => {
       setOtpSent(true);
       setIsSubmitting(false);
+      setShowTestOTP(true);
       toast({
         title: "OTP Sent",
-        description: "A verification code has been sent to your phone number",
+        description: `A verification code has been sent to your phone number: ${otp} (visible for testing only)`,
       });
     }, 1000);
   };
@@ -105,6 +110,16 @@ const PhoneVerification: React.FC<PhoneVerificationProps> = ({ onVerified }) => 
             A 6-digit verification code has been sent to +91 {phoneNumber}
           </p>
           
+          {/* Show test OTP for development purposes */}
+          <div className="mb-4 p-3 bg-yellow-100 border border-yellow-300 rounded-md">
+            <p className="text-sm font-medium text-yellow-800">
+              Testing Mode: Your OTP is <span className="font-bold">{testOTP}</span>
+            </p>
+            <p className="text-xs text-yellow-700 mt-1">
+              In production, this would be sent via SMS
+            </p>
+          </div>
+          
           <div className="mb-4">
             <label htmlFor="otp" className="block text-sm font-medium text-gray-700 mb-2">
               Enter Verification Code
@@ -138,6 +153,7 @@ const PhoneVerification: React.FC<PhoneVerificationProps> = ({ onVerified }) => 
               onClick={() => {
                 setOtpSent(false);
                 setEnteredOTP('');
+                setShowTestOTP(false);
               }}
               variant="outline" 
               className="w-full"
@@ -147,6 +163,21 @@ const PhoneVerification: React.FC<PhoneVerificationProps> = ({ onVerified }) => 
           </div>
         </div>
       )}
+      
+      {/* Test OTP Dialog */}
+      <Dialog open={showTestOTP} onOpenChange={setShowTestOTP}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Your OTP Code</DialogTitle>
+            <DialogDescription>
+              For testing purposes, your OTP is shown here. In production, it would be sent via SMS.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="flex items-center justify-center p-6">
+            <p className="text-3xl font-bold tracking-wider">{testOTP}</p>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
