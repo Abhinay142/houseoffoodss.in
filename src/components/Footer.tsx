@@ -28,8 +28,8 @@ const Footer: React.FC = () => {
           
           <div>
             <h3 className="text-xl font-bold mb-4">Contact Us</h3>
-            <p className="mb-2">Email: info@houseoffoods.com</p>
-            <p className="mb-2">Phone: +91 98765 43210</p>
+            <p className="mb-2">Email: houseoffoods.in@gmail.com</p>
+            <p className="mb-2">Phone: +91 6304226513</p>
             <div className="flex space-x-4 mt-4">
               <a href="#" className="hover:text-brand-yellow transition-colors">
                 <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
