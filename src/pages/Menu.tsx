@@ -3,11 +3,29 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ProductCard from '@/components/ProductCard';
 import { products as allProducts, Product } from '@/data/products';
+import GoToCartPopup from '@/components/ui/GoToCartPopup';
+import { useCart } from '@/contexts/CartContext';
 
 const Menu: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [products, setProducts] = useState<Product[]>([]);
   const [category, setCategory] = useState<string>(searchParams.get('category') || 'all');
+  const [showCartPopup, setShowCartPopup] = useState(false);
+  const { cartItems } = useCart();
+  
+  // Listen for changes to cart and show popup when items are added
+  useEffect(() => {
+    if (cartItems.length > 0) {
+      setShowCartPopup(true);
+      
+      // Auto-hide popup after 5 seconds
+      const timer = setTimeout(() => {
+        setShowCartPopup(false);
+      }, 5000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [cartItems]);
 
   useEffect(() => {
     if (category === 'all') {
@@ -23,6 +41,10 @@ const Menu: React.FC = () => {
       setSearchParams({ category });
     }
   }, [category, setSearchParams]);
+
+  const handleClosePopup = () => {
+    setShowCartPopup(false);
+  };
 
   return (
     <div className="container mx-auto px-4 py-16">
@@ -79,6 +101,9 @@ const Menu: React.FC = () => {
           <p className="text-xl text-gray-600">No products found in this category.</p>
         </div>
       )}
+      
+      {/* Cart Popup - Single instance for the entire page */}
+      <GoToCartPopup open={showCartPopup} onClose={handleClosePopup} />
     </div>
   );
 };
