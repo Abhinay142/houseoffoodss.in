@@ -1,12 +1,8 @@
-
 import React, { useState } from 'react';
 import { Button } from './ui/button';
 import { Plus } from 'lucide-react';
 import { Product } from '../data/products';
 import { useCart } from '../contexts/CartContext';
-import { toast } from '@/hooks/use-toast';
-import { Link } from 'react-router-dom';
-import GoToCartPopup from './ui/GoToCartPopup';
 
 interface ProductCardProps {
   product: Product;
@@ -16,23 +12,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [selectedSize, setSelectedSize] = useState<'250g' | '500g' | '1kg'>('250g');
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
-  const [showCartPopup, setShowCartPopup] = useState(false);
 
   const handleAddToCart = () => {
     addToCart(product, quantity, selectedSize);
-    toast({
-      title: 'Added to cart',
-      description: `${quantity} × ${product.name} (${selectedSize}) added to your cart.`,
-      duration: 3000,
-    });
-    
-    // Show the cart popup
-    setShowCartPopup(true);
-    
-    // Automatically hide the popup after 5 seconds
-    setTimeout(() => {
-      setShowCartPopup(false);
-    }, 5000);
   };
 
   return (

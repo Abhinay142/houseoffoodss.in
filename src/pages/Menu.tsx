@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ProductCard from '@/components/ProductCard';
@@ -12,20 +11,15 @@ const Menu: React.FC = () => {
   const [category, setCategory] = useState<string>(searchParams.get('category') || 'all');
   const [showCartPopup, setShowCartPopup] = useState(false);
   const { cartItems } = useCart();
+  const [previousCartLength, setPreviousCartLength] = useState(0);
   
   // Listen for changes to cart and show popup when items are added
   useEffect(() => {
-    if (cartItems.length > 0) {
+    if (cartItems.length > previousCartLength) {
       setShowCartPopup(true);
-      
-      // Auto-hide popup after 5 seconds
-      const timer = setTimeout(() => {
-        setShowCartPopup(false);
-      }, 5000);
-      
-      return () => clearTimeout(timer);
     }
-  }, [cartItems]);
+    setPreviousCartLength(cartItems.length);
+  }, [cartItems.length, previousCartLength]);
 
   useEffect(() => {
     if (category === 'all') {
