@@ -13,12 +13,8 @@ const GoToCartPopup: React.FC<GoToCartPopupProps> = ({ open, onClose }) => {
   if (!open) return null;
   
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div className="fixed inset-x-0 bottom-8 flex justify-center z-50">
       <div className="bg-white shadow-xl rounded-lg p-6 mx-4 flex items-center gap-4 animate-fade-in">
-        <div className="flex items-center gap-2">
-          <ShoppingCart size={20} className="text-brand-navy" />
-          <span className="font-medium">Item added to cart!</span>
-        </div>
         <Link to="/cart">
           <Button className="bg-brand-yellow text-brand-navy hover:bg-yellow-500">Go to Cart</Button>
         </Link>
