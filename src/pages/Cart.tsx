@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '@/contexts/CartContext';
@@ -50,7 +49,10 @@ const Cart: React.FC = () => {
     size: '250g' | '500g' | '1kg', 
     newQuantity: number
   ) => {
-    if (newQuantity < 1) return;
+    if (newQuantity < 1) {
+      removeFromCart(productId, size);
+      return;
+    }
     updateQuantity(productId, size, newQuantity);
   };
 
