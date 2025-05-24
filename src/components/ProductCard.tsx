@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Plus } from 'lucide-react';
 import { Product } from '../data/products';
@@ -13,14 +13,35 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [selectedSize, setSelectedSize] = useState<'250g' | '500g' | '1kg'>('250g');
   const [quantity, setQuantity] = useState(1);
   const [showQuantity, setShowQuantity] = useState(false);
-  const { addToCart } = useCart();
+  const { addToCart, updateQuantity, cartItems } = useCart();
+
+  // Check if this product with current size is in cart and sync quantity
+  useEffect(() => {
+    const cartItem = cartItems.find(
+      item => item.product.id === product.id && item.size === selectedSize
+    );
+    
+    if (cartItem) {
+      setQuantity(cartItem.quantity);
+      setShowQuantity(true);
+    } else {
+      setQuantity(1);
+      setShowQuantity(false);
+    }
+  }, [cartItems, product.id, selectedSize]);
 
   const handleAddToCart = () => {
     if (!showQuantity) {
       setShowQuantity(true);
+      addToCart(product, 1, selectedSize);
+      setQuantity(1);
     }
-    addToCart(product, quantity, selectedSize);
-    setQuantity(quantity + 1);
+  };
+
+  const handleQuantityChange = (newQuantity: number) => {
+    if (newQuantity < 1) return;
+    setQuantity(newQuantity);
+    updateQuantity(product.id, selectedSize, newQuantity);
   };
 
   return (
@@ -70,14 +91,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               <div className="flex items-center space-x-2 mt-1">
                 <button 
                   className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center"
-                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  onClick={() => handleQuantityChange(quantity - 1)}
                 >
                   -
                 </button>
                 <span className="w-8 text-center">{quantity}</span>
                 <button 
                   className="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center"
-                  onClick={() => setQuantity(quantity + 1)}
+                  onClick={() => handleQuantityChange(quantity + 1)}
                 >
                   +
                 </button>
