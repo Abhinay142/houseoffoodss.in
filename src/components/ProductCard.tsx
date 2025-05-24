@@ -13,7 +13,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [selectedSize, setSelectedSize] = useState<'250g' | '500g' | '1kg'>('250g');
   const [quantity, setQuantity] = useState(1);
   const [showQuantity, setShowQuantity] = useState(false);
-  const { addToCart, updateQuantity, cartItems } = useCart();
+  const { addToCart, updateQuantity, cartItems, removeFromCart } = useCart();
   const { toast } = useToast();
 
   // Check if this product with current size is in cart and sync quantity
@@ -46,7 +46,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   const handleQuantityChange = (newQuantity: number) => {
-    if (newQuantity < 1) return;
+    if (newQuantity < 1) {
+      // Remove item from cart when quantity goes below 1
+      removeFromCart(product.id, selectedSize);
+      setShowQuantity(false);
+      setQuantity(1);
+      return;
+    }
     setQuantity(newQuantity);
     updateQuantity(product.id, selectedSize, newQuantity);
   };
