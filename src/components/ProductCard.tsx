@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Plus } from 'lucide-react';
 import { Product } from '../data/products';
 import { useCart } from '../contexts/CartContext';
+import { useToast } from '@/hooks/use-toast';
 
 interface ProductCardProps {
   product: Product;
@@ -14,6 +14,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
   const [showQuantity, setShowQuantity] = useState(false);
   const { addToCart, updateQuantity, cartItems } = useCart();
+  const { toast } = useToast();
 
   // Check if this product with current size is in cart and sync quantity
   useEffect(() => {
@@ -21,7 +22,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       item => item.product.id === product.id && item.size === selectedSize
     );
     
-    if (cartItem) {
+    if (cartItem && cartItem.quantity > 0) {
       setQuantity(cartItem.quantity);
       setShowQuantity(true);
     } else {
@@ -32,9 +33,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const handleAddToCart = () => {
     if (!showQuantity) {
-      setShowQuantity(true);
       addToCart(product, 1, selectedSize);
+      setShowQuantity(true);
       setQuantity(1);
+      
+      // Show toast notification
+      toast({
+        title: "Added to cart",
+        description: `${product.name} (${selectedSize}) has been added to your cart.`,
+      });
     }
   };
 
