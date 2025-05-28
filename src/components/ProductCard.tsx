@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Plus } from 'lucide-react';
@@ -59,11 +60,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   return (
     <div className="product-card bg-white rounded-lg shadow-md overflow-hidden relative">
-      <div className="h-48 bg-gray-200 flex items-center justify-center">
+      <div className="h-48 bg-gray-200 flex items-center justify-center overflow-hidden">
         <img 
           src={product.image} 
           alt={product.name} 
-          className="h-40 object-contain"
+          className="h-full w-full object-cover"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.src = '/placeholder.svg';
