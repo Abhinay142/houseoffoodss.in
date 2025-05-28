@@ -1,48 +1,11 @@
-import React, { useState, useEffect } from 'react';
+
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '@/contexts/CartContext';
 import { Button } from '@/components/ui/button';
-import { toast } from '@/hooks/use-toast';
-import PhoneVerification from '@/components/PhoneVerification';
-import { getUserData, saveUserData } from '@/services/userService';
 
 const Cart: React.FC = () => {
   const { cartItems, removeFromCart, updateQuantity, getCartTotal, clearCart } = useCart();
-  const [verifiedPhone, setVerifiedPhone] = useState<string>('');
-  const [isPhoneVerified, setIsPhoneVerified] = useState(false);
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    flatNo: '',
-    building: '',
-    area: '',
-    city: '',
-    pinCode: '',
-    paymentMethod: 'cod'
-  });
-
-  // Check if user has existing data
-  useEffect(() => {
-    if (verifiedPhone && !isPhoneVerified) {
-      const userData = getUserData(verifiedPhone);
-      if (userData) {
-        setFormData({
-          ...userData,
-          paymentMethod: 'cod'
-        });
-      }
-      setIsPhoneVerified(true);
-    }
-  }, [verifiedPhone]);
-
-  const handlePhoneVerified = (phone: string) => {
-    setVerifiedPhone(phone);
-    setFormData(prevData => ({
-      ...prevData,
-      phone
-    }));
-  };
 
   const handleQuantityChange = (
     productId: string, 
@@ -56,34 +19,24 @@ const Cart: React.FC = () => {
     updateQuantity(productId, size, newQuantity);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+  const handleBuyOnWhatsApp = () => {
+    // Construct WhatsApp message with order details
+    const message = `Hello! I would like to place an order:
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+Order Details:
+${cartItems.map(item => 
+  `• ${item.product.name} (${item.size}) - Qty: ${item.quantity} - ₹${item.product.prices[item.size] * item.quantity}`
+).join('\n')}
+
+Total Amount: ₹${getCartTotal()}
+
+Please confirm my order. Thank you!`;
     
-    // Save user data for future use
-    saveUserData(formData);
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/916304226513?text=${encodedMessage}`, '_blank');
     
-    // Show toast notification
-    toast({
-      title: "Order placed successfully!",
-      description: "Your order has been placed and will be processed soon.",
-    });
-    
-    // Construct full address from address components
-    const fullAddress = `${formData.flatNo}, ${formData.building}, ${formData.area}, ${formData.city}, ${formData.pinCode}`;
-    
-    // Simulate order confirmation and redirect to WhatsApp
-    setTimeout(() => {
-      const message = `Hello! I just placed an order with House of Foods.\n\nOrder Details:\n${cartItems.map(item => `${item.quantity}x ${item.product.name} (${item.size})`).join('\n')}\n\nTotal: ₹${getCartTotal()}\n\nName: ${formData.name}\nPhone: ${formData.phone}\nAddress: ${fullAddress}`;
-      const whatsappUrl = `https://wa.me/916304226513?text=${encodeURIComponent(message)}`;
-      window.open(whatsappUrl, '_blank');
-      clearCart();
-      window.location.href = '/thank-you';
-    }, 1500);
+    // Clear cart after sending message
+    clearCart();
   };
 
   if (cartItems.length === 0) {
@@ -170,140 +123,36 @@ const Cart: React.FC = () => {
           </Link>
         </div>
         
-        {/* Checkout Form */}
+        {/* Buy on WhatsApp Section */}
         <div className="lg:col-span-1">
           <div className="bg-white rounded-lg shadow-md p-6 sticky top-24">
-            <h2 className="text-xl font-semibold text-brand-navy mb-4">Checkout</h2>
+            <h2 className="text-xl font-semibold text-brand-navy mb-4">Order Summary</h2>
             
-            {!isPhoneVerified ? (
-              <PhoneVerification onVerified={handlePhoneVerified} />
-            ) : (
-              <form onSubmit={handleSubmit}>
-                <div className="space-y-4">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-yellow"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      readOnly
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-yellow"
-                      required
-                    />
-                  </div>
-                  
-                  {/* Detailed Address Fields */}
-                  <div>
-                    <label htmlFor="flatNo" className="block text-sm font-medium text-gray-700 mb-1">Flat/House No.</label>
-                    <input
-                      type="text"
-                      id="flatNo"
-                      name="flatNo"
-                      value={formData.flatNo}
-                      onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-yellow"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="building" className="block text-sm font-medium text-gray-700 mb-1">Building/Society</label>
-                    <input
-                      type="text"
-                      id="building"
-                      name="building"
-                      value={formData.building}
-                      onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-yellow"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="area" className="block text-sm font-medium text-gray-700 mb-1">Area/Locality</label>
-                    <input
-                      type="text"
-                      id="area"
-                      name="area"
-                      value={formData.area}
-                      onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-yellow"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">City</label>
-                    <input
-                      type="text"
-                      id="city"
-                      name="city"
-                      value={formData.city}
-                      onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-yellow"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="pinCode" className="block text-sm font-medium text-gray-700 mb-1">PIN Code</label>
-                    <input
-                      type="text"
-                      id="pinCode"
-                      name="pinCode"
-                      value={formData.pinCode}
-                      onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-yellow"
-                      required
-                    />
-                  </div>
-                  
-                  <div>
-                    <label htmlFor="paymentMethod" className="block text-sm font-medium text-gray-700 mb-1">Payment Method</label>
-                    <select
-                      id="paymentMethod"
-                      name="paymentMethod"
-                      value={formData.paymentMethod}
-                      onChange={handleInputChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-yellow"
-                      required
-                    >
-                      <option value="cod">Cash on Delivery</option>
-                      <option value="online">Online Payment</option>
-                      <option value="upi">UPI</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="mt-8">
-                  <Button 
-                    type="submit"
-                    className="w-full bg-brand-yellow hover:bg-yellow-500 text-brand-navy"
-                  >
-                    Place Order
-                  </Button>
-                </div>
-              </form>
-            )}
+            <div className="space-y-2 mb-6">
+              <div className="flex justify-between">
+                <span className="text-gray-600">Items ({cartItems.reduce((count, item) => count + item.quantity, 0)})</span>
+                <span className="font-medium">₹{getCartTotal()}</span>
+              </div>
+              <div className="flex justify-between text-lg font-semibold text-brand-navy pt-2 border-t">
+                <span>Total</span>
+                <span>₹{getCartTotal()}</span>
+              </div>
+            </div>
+            
+            <Button 
+              onClick={handleBuyOnWhatsApp}
+              className="w-full bg-green-500 hover:bg-green-600 text-white flex items-center justify-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                <path d="M12 22.16C6.398 22.16 1.64 17.4 1.64 11.8c0-5.602 4.758-10.36 10.36-10.36 5.602 0 10.36 4.758 10.36 10.36 0 5.602-4.758 10.36-10.36 10.36m0-18.34C7.08 3.82 3.1 7.8 3.1 11.8c0 4 3.98 7.98 8.9 7.98 4.92 0 8.9-3.98 8.9-8.9S16.02 3.82 12 3.82"/>
+              </svg>
+              Buy on WhatsApp
+            </Button>
+            
+            <p className="text-xs text-gray-500 mt-2 text-center">
+              You'll be redirected to WhatsApp to complete your order
+            </p>
           </div>
         </div>
       </div>
