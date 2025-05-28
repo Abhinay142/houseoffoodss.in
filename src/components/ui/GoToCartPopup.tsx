@@ -13,17 +13,16 @@ interface GoToCartPopupProps {
 const GoToCartPopup: React.FC<GoToCartPopupProps> = ({ open, onClose }) => {
   const { getCartCount } = useCart();
   
-  if (!open) return null;
+  // Don't show popup if cart is empty
+  if (!open || getCartCount() === 0) return null;
   
   return (
     <div className="fixed inset-x-0 bottom-8 flex justify-center z-50">
       <div className="bg-white shadow-xl rounded-lg p-6 mx-4 flex items-center gap-4 animate-fade-in relative">
         {/* Cart count badge */}
-        {getCartCount() > 0 && (
-          <div className="absolute -top-2 -left-2 bg-brand-yellow text-brand-navy text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">
-            {getCartCount()}
-          </div>
-        )}
+        <div className="absolute -top-2 -left-2 bg-brand-yellow text-brand-navy text-xs font-bold rounded-full h-6 w-6 flex items-center justify-center">
+          {getCartCount()}
+        </div>
         
         <Link to="/cart">
           <Button className="bg-brand-yellow text-brand-navy hover:bg-yellow-500">Go to Cart</Button>

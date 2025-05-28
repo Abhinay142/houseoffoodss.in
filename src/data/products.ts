@@ -20,8 +20,8 @@ export const products: Product[] = [
     category: 'sweets',
     ingredients: ['Ragi Flour', 'Jaggery', 'Ghee'],
     prices: {
-      '250g': 195,
-      '500g': 390,
+      '250g': 185,
+      '500g': 370,
       '1kg': 650
     },
     image: '/placeholder.svg'
@@ -34,7 +34,7 @@ export const products: Product[] = [
     prices: {
       '250g': 195,
       '500g': 390,
-      '1kg': 650
+      '1kg': 680
     },
     image: '/placeholder.svg'
   },
@@ -56,8 +56,8 @@ export const products: Product[] = [
     category: 'sweets',
     ingredients: ['Cashew', 'Almond', 'Pista', 'Dates', 'Poppy seeds', 'Raisins', 'Watermelon Seeds', 'Pumpkin Seeds', 'Dry Coconut', 'Edible Gum'],
     prices: {
-      '250g': 330,
-      '500g': 660,
+      '250g': 300,
+      '500g': 600,
       '1kg': 1100
     },
     image: '/placeholder.svg'
@@ -70,7 +70,19 @@ export const products: Product[] = [
     prices: {
       '250g': 195,
       '500g': 390,
-      '1kg': 650
+      '1kg': 700
+    },
+    image: '/placeholder.svg'
+  },
+  {
+    id: 'bellam-gavvalu',
+    name: 'Bellam Gavvalu',
+    category: 'sweets',
+    ingredients: ['Rice Flour', 'Jaggery', 'Ghee', 'Sesame Seeds'],
+    prices: {
+      '250g': 150,
+      '500g': 300,
+      '1kg': 550
     },
     image: '/placeholder.svg'
   },
@@ -80,9 +92,9 @@ export const products: Product[] = [
     category: 'sweets',
     ingredients: ['Besan', 'Sugar', 'Ghee', 'Oil', 'Cashew'],
     prices: {
-      '250g': 255,
-      '500g': 510,
-      '1kg': 850
+      '250g': 250,
+      '500g': 500,
+      '1kg': 900
     },
     image: '/placeholder.svg'
   },
@@ -94,9 +106,21 @@ export const products: Product[] = [
     category: 'savouries',
     ingredients: ['Flour', 'Butter', 'Ajwain', 'Chilli Powder', 'Salt', 'Oil'],
     prices: {
-      '250g': 150,
-      '500g': 300,
-      '1kg': 500
+      '250g': 165,
+      '500g': 330,
+      '1kg': 550
+    },
+    image: '/placeholder.svg'
+  },
+  {
+    id: 'janthikalu',
+    name: 'Janthikalu',
+    category: 'savouries',
+    ingredients: ['Rice Flour', 'Sesame Seeds', 'Cumin Seeds', 'Chilli Powder', 'Salt', 'Oil'],
+    prices: {
+      '250g': 165,
+      '500g': 330,
+      '1kg': 550
     },
     image: '/placeholder.svg'
   },
@@ -106,9 +130,9 @@ export const products: Product[] = [
     category: 'savouries',
     ingredients: ['Flour', 'Sesame Seeds', 'Jeera', 'Chilli Powder', 'Salt', 'Oil'],
     prices: {
-      '250g': 135,
-      '500g': 270,
-      '1kg': 450
+      '250g': 150,
+      '500g': 300,
+      '1kg': 500
     },
     image: '/placeholder.svg'
   },
@@ -130,9 +154,9 @@ export const products: Product[] = [
     category: 'savouries',
     ingredients: ['Besan', 'Ground Nut', 'Cornflakes', 'Chilli Powder', 'Salt', 'Oil'],
     prices: {
-      '250g': 135,
-      '500g': 270,
-      '1kg': 450
+      '250g': 150,
+      '500g': 300,
+      '1kg': 500
     },
     image: '/placeholder.svg'
   }

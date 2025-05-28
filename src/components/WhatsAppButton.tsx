@@ -1,9 +1,46 @@
 
 import React from 'react';
+import { useCart } from '@/contexts/CartContext';
+import { useOrder } from '@/contexts/OrderContext';
 
-const WhatsAppButton: React.FC = () => {
+interface WhatsAppButtonProps {
+  paymentMode?: 'cod' | 'online';
+  showOrderDetails?: boolean;
+}
+
+const WhatsAppButton: React.FC<WhatsAppButtonProps> = ({ 
+  paymentMode = 'cod', 
+  showOrderDetails = false 
+}) => {
+  const { cartItems, getCartTotal, clearCart } = useCart();
+  const { addOrder } = useOrder();
+
   const openWhatsApp = () => {
-    window.open('https://wa.me/916304226513?text=Hi,%20I%20would%20like%20to%20know%20more%20about%20House%20of%20Foods%20products.', '_blank');
+    let message = 'Hi, I would like to know more about House of Foods products.';
+    
+    if (showOrderDetails && cartItems.length > 0) {
+      const order = addOrder(cartItems, getCartTotal(), paymentMode);
+      
+      message = `Hi, I would like to place an order:
+
+Order ID: ${order.id}
+Customer ID: ${order.customerId}
+Payment Mode: ${paymentMode === 'cod' ? 'Cash on Delivery' : 'Online Payment'}
+
+Order Details:
+${cartItems.map(item => 
+  `• ${item.product.name} (${item.size}) - Qty: ${item.quantity} - ₹${item.product.prices[item.size] * item.quantity}`
+).join('\n')}
+
+Total Amount: ₹${getCartTotal()}
+
+Please confirm my order. Thank you!`;
+
+      clearCart();
+    }
+    
+    const encodedMessage = encodeURIComponent(message);
+    window.open(`https://wa.me/916304226513?text=${encodedMessage}`, '_blank');
   };
 
   return (
