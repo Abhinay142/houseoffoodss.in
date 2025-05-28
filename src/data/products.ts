@@ -122,7 +122,7 @@ export const products: Product[] = [
       '500g': 330,
       '1kg': 550
     },
-    image: '/placeholder.svg'
+    image: '/lovable-uploads/29aed13c-62fe-4965-8355-bca765d098df.png'
   },
   {
     id: 'chekkalu',
@@ -134,7 +134,7 @@ export const products: Product[] = [
       '500g': 300,
       '1kg': 500
     },
-    image: '/placeholder.svg'
+    image: '/lovable-uploads/988a48dc-40a8-4b39-b390-c49d22dbcab6.png'
   },
   {
     id: 'hot-boondi',
