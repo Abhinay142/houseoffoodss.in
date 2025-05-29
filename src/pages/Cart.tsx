@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 interface Address {
+  customerName: string;
   flatNo: string;
   building: string;
   area: string;
@@ -20,6 +21,7 @@ const Cart: React.FC = () => {
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [newAddress, setNewAddress] = useState<Address>({
+    customerName: '',
     flatNo: '',
     building: '',
     area: '',
@@ -30,6 +32,7 @@ const Cart: React.FC = () => {
   // Sample saved addresses (in a real app, this would come from user data)
   const savedAddresses: Address[] = [
     {
+      customerName: "John Doe",
       flatNo: "101",
       building: "Sunrise Apartments",
       area: "Banjara Hills",
@@ -37,6 +40,7 @@ const Cart: React.FC = () => {
       pinCode: "500034"
     },
     {
+      customerName: "Jane Smith",
       flatNo: "205",
       building: "Green Valley",
       area: "Jubilee Hills",
@@ -69,11 +73,12 @@ const Cart: React.FC = () => {
   };
 
   const handleNewAddressSubmit = () => {
-    if (newAddress.flatNo && newAddress.building && newAddress.area && newAddress.city && newAddress.pinCode) {
+    if (newAddress.customerName && newAddress.flatNo && newAddress.building && newAddress.area && newAddress.city && newAddress.pinCode) {
       setSelectedAddress(newAddress);
       setShowAddressForm(false);
       // Reset form
       setNewAddress({
+        customerName: '',
         flatNo: '',
         building: '',
         area: '',
@@ -88,6 +93,8 @@ const Cart: React.FC = () => {
 
     // Construct WhatsApp message with order details and address
     const message = `Hello! I would like to place an order:
+
+Customer Name: ${selectedAddress.customerName}
 
 Order Details:
 ${cartItems.map(item => 
@@ -220,7 +227,7 @@ Please confirm my order. Thank you!`;
                 <SelectContent>
                   {savedAddresses.map((address, index) => (
                     <SelectItem key={index} value={index.toString()}>
-                      {address.flatNo}, {address.building}, {address.area}
+                      {address.customerName} - {address.flatNo}, {address.building}, {address.area}
                     </SelectItem>
                   ))}
                   <SelectItem value="new">+ Add new address</SelectItem>
@@ -229,6 +236,7 @@ Please confirm my order. Thank you!`;
 
               {selectedAddress && !showAddressForm && (
                 <div className="mt-2 p-2 border rounded bg-gray-50 text-sm">
+                  <p><span className="font-medium">Customer:</span> {selectedAddress.customerName}</p>
                   <p><span className="font-medium">Address:</span> {selectedAddress.flatNo}, {selectedAddress.building}</p>
                   <p><span className="font-medium">Area:</span> {selectedAddress.area}</p>
                   <p><span className="font-medium">City:</span> {selectedAddress.city}</p>
@@ -238,6 +246,15 @@ Please confirm my order. Thank you!`;
 
               {showAddressForm && (
                 <div className="mt-4 space-y-3">
+                  <div>
+                    <Label htmlFor="customerName">Customer Name</Label>
+                    <Input
+                      id="customerName"
+                      value={newAddress.customerName}
+                      onChange={(e) => setNewAddress({...newAddress, customerName: e.target.value})}
+                      placeholder="Your full name"
+                    />
+                  </div>
                   <div className="grid grid-cols-2 gap-2">
                     <div>
                       <Label htmlFor="flatNo">Flat/House No.</Label>
