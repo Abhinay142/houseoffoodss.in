@@ -5,7 +5,7 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
-            <img src="/lovable-uploads/c86cdcf2-ee05-4bd8-a17a-8267e61d313d.png" alt="House of Foods" className="h-16 mb-4" />
+            <img src="/lovable-uploads/c86cdcf2-ee05-4bd8-a17a-8267e61d313d.png" alt="House of Foods Store" className="h-16 mb-4" />
             <p className="text-sm">Just like mom made!</p>
           </div>
           
@@ -43,7 +43,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
         <div className="mt-8 pt-8 border-t border-gray-700 text-center">
-          <p className="text-sm">© 2023 House of Foods. All rights reserved.</p>
+          <p className="text-sm">© 2025 House of Foods Store. All rights reserved.</p>
         </div>
       </div>
     </footer>;
