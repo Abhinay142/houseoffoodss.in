@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import CategorySection from '@/components/CategorySection';
+import ProductCarousel from '@/components/ProductCarousel';
 
 const Home: React.FC = () => {
   return <div>
@@ -21,7 +22,7 @@ const Home: React.FC = () => {
             </Link>
           </div>
           <div className="md:w-1/2 flex justify-center">
-            <img src="/lovable-uploads/42184b63-7837-4311-9ff3-db3745183383.png" alt="Delicious Homemade Sweets" className="max-h-80 rounded-lg shadow-lg" />
+            <ProductCarousel />
           </div>
         </div>
       </section>
