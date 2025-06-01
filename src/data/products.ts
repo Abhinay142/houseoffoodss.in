@@ -25,8 +25,8 @@ export const products: Product[] = [
       '500g': 370,
       '1kg': 650
     },
-    image: '/placeholder.svg',
-    hoverImage: '/placeholder.svg'
+    image: '/lovable-uploads/2777f303-236c-4754-9d5f-458c2e4e68d7.png',
+    hoverImage: '/lovable-uploads/99c753fe-7ee1-493c-b504-6fdd2c69ca42.png'
   },
   {
     id: 'bellam-sunnundalu',
@@ -38,8 +38,8 @@ export const products: Product[] = [
       '500g': 390,
       '1kg': 680
     },
-    image: '/lovable-uploads/01dd71d0-620a-49ad-8c7f-e411e9d5d7d5.png',
-    hoverImage: '/lovable-uploads/44df465d-b9a1-4575-8622-8c502369a35b.png'
+    image: '/lovable-uploads/1f79e99c-70ab-464e-9ce0-cbe65313967d.png',
+    hoverImage: '/lovable-uploads/1f79e99c-70ab-464e-9ce0-cbe65313967d.png'
   },
   {
     id: 'nuvvu-laddu',
@@ -51,8 +51,8 @@ export const products: Product[] = [
       '500g': 300,
       '1kg': 500
     },
-    image: '/lovable-uploads/3365258a-f037-40b4-ac3e-2b504178a480.png',
-    hoverImage: '/lovable-uploads/3365258a-f037-40b4-ac3e-2b504178a480.png'
+    image: '/lovable-uploads/77874c11-ff3f-4624-a8cb-b6b113aa8121.png',
+    hoverImage: '/lovable-uploads/96543ab8-8043-4d0f-9794-d9c033609a40.png'
   },
   {
     id: 'dry-fruit-laddu',
@@ -64,8 +64,8 @@ export const products: Product[] = [
       '500g': 600,
       '1kg': 1100
     },
-    image: '/lovable-uploads/0098cf42-af22-4537-a063-fbe5ae03b691.png',
-    hoverImage: '/lovable-uploads/1224ec37-2be6-4390-acdb-a8929b397394.png'
+    image: '/lovable-uploads/5423a150-8093-4228-ae3f-ab1a7391806b.png',
+    hoverImage: '/lovable-uploads/e77e5ccd-0f7f-4c6a-971d-bb3775e2931c.png'
   },
   {
     id: 'boondi-laddu',
@@ -77,8 +77,8 @@ export const products: Product[] = [
       '500g': 390,
       '1kg': 700
     },
-    image: '/placeholder.svg',
-    hoverImage: '/placeholder.svg'
+    image: '/lovable-uploads/0ab8f3ac-ce7b-4586-98f5-fa1587a620d5.png',
+    hoverImage: '/lovable-uploads/01cb7912-cac9-4dab-bc84-6dce710456bb.png'
   },
   {
     id: 'bellam-gavvalu',
@@ -90,8 +90,8 @@ export const products: Product[] = [
       '500g': 300,
       '1kg': 550
     },
-    image: '/lovable-uploads/2b390886-b310-43de-b984-3700059c3cad.png',
-    hoverImage: '/lovable-uploads/2b390886-b310-43de-b984-3700059c3cad.png'
+    image: '/lovable-uploads/f2abd18e-6b02-4724-9e5b-2f8ffb460040.png',
+    hoverImage: '/lovable-uploads/f2abd18e-6b02-4724-9e5b-2f8ffb460040.png'
   },
   {
     id: 'kaju-mysorepak',

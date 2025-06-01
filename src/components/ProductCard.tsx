@@ -62,7 +62,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   return (
     <div className="product-card bg-white rounded-lg shadow-md overflow-hidden relative">
       <div 
-        className="relative h-48 bg-gray-200 flex items-center justify-center overflow-hidden"
+        className="relative bg-gray-200 flex items-center justify-center overflow-hidden"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         style={{ aspectRatio: '4/3' }}
