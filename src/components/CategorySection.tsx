@@ -13,7 +13,7 @@ interface CategorySectionProps {
 const CategorySection: React.FC<CategorySectionProps> = ({ title, description, image, link }) => {
   return (
     <div className="flex flex-col md:flex-row bg-white rounded-lg shadow-md overflow-hidden">
-      <div className="md:w-1/2 bg-gray-200 h-56 md:h-auto flex items-center justify-center">
+      <div className="md:w-1/2 bg-gray-200 flex items-center justify-center overflow-hidden" style={{ aspectRatio: '4/3' }}>
         <img 
           src={image} 
           alt={title} 

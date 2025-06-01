@@ -10,6 +10,7 @@ export interface Product {
     '1kg': number;
   };
   image: string;
+  hoverImage?: string;
 }
 
 export const products: Product[] = [
@@ -24,7 +25,8 @@ export const products: Product[] = [
       '500g': 370,
       '1kg': 650
     },
-    image: '/placeholder.svg'
+    image: '/placeholder.svg',
+    hoverImage: '/placeholder.svg'
   },
   {
     id: 'bellam-sunnundalu',
@@ -36,7 +38,8 @@ export const products: Product[] = [
       '500g': 390,
       '1kg': 680
     },
-    image: '/placeholder.svg'
+    image: '/lovable-uploads/01dd71d0-620a-49ad-8c7f-e411e9d5d7d5.png',
+    hoverImage: '/lovable-uploads/44df465d-b9a1-4575-8622-8c502369a35b.png'
   },
   {
     id: 'nuvvu-laddu',
@@ -48,7 +51,8 @@ export const products: Product[] = [
       '500g': 300,
       '1kg': 500
     },
-    image: '/placeholder.svg'
+    image: '/lovable-uploads/3365258a-f037-40b4-ac3e-2b504178a480.png',
+    hoverImage: '/lovable-uploads/3365258a-f037-40b4-ac3e-2b504178a480.png'
   },
   {
     id: 'dry-fruit-laddu',
@@ -60,7 +64,8 @@ export const products: Product[] = [
       '500g': 600,
       '1kg': 1100
     },
-    image: '/placeholder.svg'
+    image: '/lovable-uploads/0098cf42-af22-4537-a063-fbe5ae03b691.png',
+    hoverImage: '/lovable-uploads/1224ec37-2be6-4390-acdb-a8929b397394.png'
   },
   {
     id: 'boondi-laddu',
@@ -72,7 +77,8 @@ export const products: Product[] = [
       '500g': 390,
       '1kg': 700
     },
-    image: '/placeholder.svg'
+    image: '/placeholder.svg',
+    hoverImage: '/placeholder.svg'
   },
   {
     id: 'bellam-gavvalu',
@@ -84,7 +90,8 @@ export const products: Product[] = [
       '500g': 300,
       '1kg': 550
     },
-    image: '/placeholder.svg'
+    image: '/lovable-uploads/2b390886-b310-43de-b984-3700059c3cad.png',
+    hoverImage: '/lovable-uploads/2b390886-b310-43de-b984-3700059c3cad.png'
   },
   {
     id: 'kaju-mysorepak',
@@ -96,7 +103,8 @@ export const products: Product[] = [
       '500g': 500,
       '1kg': 900
     },
-    image: '/placeholder.svg'
+    image: '/lovable-uploads/f7d81cbb-3da5-430f-8eab-097341f85c7b.png',
+    hoverImage: '/lovable-uploads/23576a2e-f57f-419c-815e-e30669d2dfca.png'
   },
   
   // Savouries
@@ -110,7 +118,8 @@ export const products: Product[] = [
       '500g': 330,
       '1kg': 550
     },
-    image: '/placeholder.svg'
+    image: '/lovable-uploads/4f31be51-ac7a-43a8-9556-7990d427f42d.png',
+    hoverImage: '/lovable-uploads/4f31be51-ac7a-43a8-9556-7990d427f42d.png'
   },
   {
     id: 'janthikalu',

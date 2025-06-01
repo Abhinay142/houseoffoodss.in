@@ -14,6 +14,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [selectedSize, setSelectedSize] = useState<'250g' | '500g' | '1kg'>('250g');
   const [quantity, setQuantity] = useState(1);
   const [showQuantity, setShowQuantity] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const { addToCart, updateQuantity, cartItems, removeFromCart } = useCart();
   const { toast } = useToast();
 
@@ -60,16 +61,36 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   return (
     <div className="product-card bg-white rounded-lg shadow-md overflow-hidden relative">
-      <div className="h-48 bg-gray-200 flex items-center justify-center overflow-hidden">
+      <div 
+        className="relative h-48 bg-gray-200 flex items-center justify-center overflow-hidden"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        style={{ aspectRatio: '4/3' }}
+      >
         <img 
           src={product.image} 
           alt={product.name} 
-          className="h-full w-full object-cover"
+          className={`h-full w-full object-cover transition-transform duration-300 ${
+            isHovered && product.hoverImage ? 'transform -translate-x-full' : ''
+          }`}
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.src = '/placeholder.svg';
           }}
         />
+        {product.hoverImage && (
+          <img 
+            src={product.hoverImage} 
+            alt={`${product.name} - alternate view`} 
+            className={`absolute top-0 left-0 h-full w-full object-cover transition-transform duration-300 ${
+              isHovered ? 'transform translate-x-0' : 'transform translate-x-full'
+            }`}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = '/placeholder.svg';
+            }}
+          />
+        )}
       </div>
       <div className="p-4">
         <h3 className="text-lg font-semibold text-brand-navy">{product.name}</h3>
