@@ -91,7 +91,7 @@ export const products: Product[] = [
       '1kg': 550
     },
     image: '/lovable-uploads/f2abd18e-6b02-4724-9e5b-2f8ffb460040.png',
-    hoverImage: '/lovable-uploads/f2abd18e-6b02-4724-9e5b-2f8ffb460040.png'
+    hoverImage: '/lovable-uploads/9d06f1ec-cd41-4af3-8c21-760979143d6a.png'
   },
   {
     id: 'kaju-mysorepak',
@@ -103,8 +103,8 @@ export const products: Product[] = [
       '500g': 500,
       '1kg': 900
     },
-    image: '/lovable-uploads/f7d81cbb-3da5-430f-8eab-097341f85c7b.png',
-    hoverImage: '/lovable-uploads/23576a2e-f57f-419c-815e-e30669d2dfca.png'
+    image: '/lovable-uploads/7440753b-a4d0-410d-b3f4-e4eb9e5a849a.png',
+    hoverImage: '/lovable-uploads/a4618811-349e-4872-b860-962127f1b626.png'
   },
   
   // Savouries
@@ -118,8 +118,8 @@ export const products: Product[] = [
       '500g': 330,
       '1kg': 550
     },
-    image: '/lovable-uploads/4f31be51-ac7a-43a8-9556-7990d427f42d.png',
-    hoverImage: '/lovable-uploads/4f31be51-ac7a-43a8-9556-7990d427f42d.png'
+    image: '/lovable-uploads/b8f11f91-3bc7-422d-a55d-a65bb6b37c30.png',
+    hoverImage: '/lovable-uploads/471a0678-3271-4692-8db8-88b451abe34f.png'
   },
   {
     id: 'janthikalu',
@@ -131,7 +131,8 @@ export const products: Product[] = [
       '500g': 330,
       '1kg': 550
     },
-    image: '/lovable-uploads/29aed13c-62fe-4965-8355-bca765d098df.png'
+    image: '/lovable-uploads/27020914-3b95-499b-a46f-b4058f0f6639.png',
+    hoverImage: '/lovable-uploads/4bfdc03e-d23c-4d75-b80a-43ff5011f6b7.png'
   },
   {
     id: 'chekkalu',
@@ -143,7 +144,7 @@ export const products: Product[] = [
       '500g': 300,
       '1kg': 500
     },
-    image: '/lovable-uploads/988a48dc-40a8-4b39-b390-c49d22dbcab6.png'
+    image: '/lovable-uploads/a42b4e0d-b2be-486f-9a95-6d0949f42ee9.png'
   },
   {
     id: 'hot-boondi',
@@ -155,7 +156,8 @@ export const products: Product[] = [
       '500g': 270,
       '1kg': 450
     },
-    image: '/placeholder.svg'
+    image: '/lovable-uploads/2b70c9c4-fbfd-497e-adfb-2a945166a0a4.png',
+    hoverImage: '/lovable-uploads/e62df34e-ced2-4fa8-bd3a-f8b0de0dbfc9.png'
   },
   {
     id: 'mixture',
