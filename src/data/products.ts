@@ -118,8 +118,8 @@ export const products: Product[] = [
       '500g': 330,
       '1kg': 550
     },
-    image: '/lovable-uploads/b8f11f91-3bc7-422d-a55d-a65bb6b37c30.png',
-    hoverImage: '/lovable-uploads/471a0678-3271-4692-8db8-88b451abe34f.png'
+    image: '/lovable-uploads/471a0678-3271-4692-8db8-88b451abe34f.png',
+    hoverImage: '/lovable-uploads/b8f11f91-3bc7-422d-a55d-a65bb6b37c30.png'
   },
   {
     id: 'janthikalu',
@@ -131,8 +131,8 @@ export const products: Product[] = [
       '500g': 330,
       '1kg': 550
     },
-    image: '/lovable-uploads/27020914-3b95-499b-a46f-b4058f0f6639.png',
-    hoverImage: '/lovable-uploads/4bfdc03e-d23c-4d75-b80a-43ff5011f6b7.png'
+    image: '/lovable-uploads/4bfdc03e-d23c-4d75-b80a-43ff5011f6b7.png',
+    hoverImage: '/lovable-uploads/27020914-3b95-499b-a46f-b4058f0f6639.png'
   },
   {
     id: 'chekkalu',
@@ -144,7 +144,8 @@ export const products: Product[] = [
       '500g': 300,
       '1kg': 500
     },
-    image: '/lovable-uploads/a42b4e0d-b2be-486f-9a95-6d0949f42ee9.png'
+    image: '/lovable-uploads/a42b4e0d-b2be-486f-9a95-6d0949f42ee9.png',
+    hoverImage: '/lovable-uploads/0ed96002-1bc9-4114-8ea3-f71f6048078d.png'
   },
   {
     id: 'hot-boondi',
@@ -156,8 +157,8 @@ export const products: Product[] = [
       '500g': 270,
       '1kg': 450
     },
-    image: '/lovable-uploads/2b70c9c4-fbfd-497e-adfb-2a945166a0a4.png',
-    hoverImage: '/lovable-uploads/e62df34e-ced2-4fa8-bd3a-f8b0de0dbfc9.png'
+    image: '/lovable-uploads/e62df34e-ced2-4fa8-bd3a-f8b0de0dbfc9.png',
+    hoverImage: '/lovable-uploads/2b70c9c4-fbfd-497e-adfb-2a945166a0a4.png'
   },
   {
     id: 'mixture',
@@ -169,6 +170,7 @@ export const products: Product[] = [
       '500g': 300,
       '1kg': 500
     },
-    image: '/placeholder.svg'
+    image: '/lovable-uploads/137e8882-0538-40b7-a405-a3c023003e97.png',
+    hoverImage: '/lovable-uploads/586fcabb-b7f8-4b30-98ca-f7b1825fe700.png'
   }
 ];

@@ -21,7 +21,7 @@ const Home: React.FC = () => {
             </Link>
           </div>
           <div className="md:w-1/2 flex justify-center">
-            <img src="/placeholder.svg" alt="Delicious Homemade Sweets" className="max-h-80 rounded-lg shadow-lg" />
+            <img src="/lovable-uploads/42184b63-7837-4311-9ff3-db3745183383.png" alt="Delicious Homemade Sweets" className="max-h-80 rounded-lg shadow-lg" />
           </div>
         </div>
       </section>
@@ -33,8 +33,8 @@ const Home: React.FC = () => {
             Shop by Category
           </h2>
           <div className="space-y-8">
-            <CategorySection title="Sweets" description="Indulge in our range of traditional sweets made with pure ingredients and authentic recipes passed down through generations." image="/placeholder.svg" link="/menu?category=sweets" />
-            <CategorySection title="Savouries" description="Enjoy the perfect crunch and flavor of our savory snacks, prepared with premium ingredients and careful attention to taste." image="/placeholder.svg" link="/menu?category=savouries" />
+            <CategorySection title="Sweets" description="Indulge in our range of traditional sweets made with pure ingredients and authentic recipes passed down through generations." image="/lovable-uploads/a17eeb10-8f0e-4a68-adeb-c905a00cbf17.png" link="/menu?category=sweets" />
+            <CategorySection title="Savouries" description="Enjoy the perfect crunch and flavor of our savory snacks, prepared with premium ingredients and careful attention to taste." image="/lovable-uploads/5b25c230-e261-47c5-b8c9-557f731645d7.png" link="/menu?category=savouries" />
           </div>
         </div>
       </section>
