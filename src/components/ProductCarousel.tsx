@@ -5,6 +5,7 @@ import { products } from '../data/products';
 
 const ProductCarousel: React.FC = () => {
   const [api, setApi] = useState<any>();
+  const [isPaused, setIsPaused] = useState(false);
 
   // Hero image and all product first images
   const slideImages = [
@@ -13,15 +14,15 @@ const ProductCarousel: React.FC = () => {
   ];
 
   useEffect(() => {
-    if (!api) return;
+    if (!api || isPaused) return;
 
-    // Auto-play with 1 second interval
+    // Auto-play with 2 second interval
     const interval = setInterval(() => {
       api.scrollNext();
-    }, 1000);
+    }, 2000);
 
     return () => clearInterval(interval);
-  }, [api]);
+  }, [api, isPaused]);
 
   return (
     <div className="relative max-w-md mx-auto">
@@ -36,7 +37,11 @@ const ProductCarousel: React.FC = () => {
         <CarouselContent>
           {slideImages.map((image, index) => (
             <CarouselItem key={index}>
-              <div className="p-1">
+              <div 
+                className="p-1"
+                onMouseEnter={() => setIsPaused(true)}
+                onMouseLeave={() => setIsPaused(false)}
+              >
                 <div className="bg-gray-200 flex items-center justify-center overflow-hidden rounded-lg" style={{ aspectRatio: '4/3' }}>
                   <img 
                     src={image} 

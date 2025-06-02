@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Plus } from 'lucide-react';
@@ -41,7 +40,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     if (isMobile && product.hoverImage) {
       const interval = setInterval(() => {
         setCurrentImageIndex(prev => prev === 0 ? 1 : 0);
-      }, 1000);
+      }, 2000);
 
       return () => clearInterval(interval);
     }
