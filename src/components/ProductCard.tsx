@@ -5,6 +5,7 @@ import { Plus } from 'lucide-react';
 import { Product } from '../data/products';
 import { useCart } from '../contexts/CartContext';
 import { useToast } from '@/hooks/use-toast';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ProductCardProps {
   product: Product;
@@ -15,8 +16,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [quantity, setQuantity] = useState(1);
   const [showQuantity, setShowQuantity] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const { addToCart, updateQuantity, cartItems, removeFromCart } = useCart();
   const { toast } = useToast();
+  const isMobile = useIsMobile();
 
   // Check if this product with current size is in cart and sync quantity
   useEffect(() => {
@@ -32,6 +35,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       setShowQuantity(false);
     }
   }, [cartItems, product.id, selectedSize]);
+
+  // Auto slideshow for mobile when product has hover image
+  useEffect(() => {
+    if (isMobile && product.hoverImage) {
+      const interval = setInterval(() => {
+        setCurrentImageIndex(prev => prev === 0 ? 1 : 0);
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [isMobile, product.hoverImage]);
 
   const handleAddToCart = () => {
     if (!showQuantity) {
@@ -59,38 +73,31 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     updateQuantity(product.id, selectedSize, newQuantity);
   };
 
+  // Determine which image to show
+  const getImageToShow = () => {
+    if (isMobile && product.hoverImage) {
+      return currentImageIndex === 0 ? product.image : product.hoverImage;
+    }
+    return isHovered && product.hoverImage ? product.hoverImage : product.image;
+  };
+
   return (
     <div className="product-card bg-white rounded-lg shadow-md overflow-hidden relative">
       <div 
         className="relative bg-gray-200 flex items-center justify-center overflow-hidden"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
+        onMouseEnter={() => !isMobile && setIsHovered(true)}
+        onMouseLeave={() => !isMobile && setIsHovered(false)}
         style={{ aspectRatio: '4/3' }}
       >
         <img 
-          src={product.image} 
+          src={getImageToShow()} 
           alt={product.name} 
-          className={`h-full w-full object-cover transition-transform duration-300 ${
-            isHovered && product.hoverImage ? 'transform -translate-x-full' : ''
-          }`}
+          className="h-full w-full object-cover transition-opacity duration-300"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.src = '/placeholder.svg';
           }}
         />
-        {product.hoverImage && (
-          <img 
-            src={product.hoverImage} 
-            alt={`${product.name} - alternate view`} 
-            className={`absolute top-0 left-0 h-full w-full object-cover transition-transform duration-300 ${
-              isHovered ? 'transform translate-x-0' : 'transform translate-x-full'
-            }`}
-            onError={(e) => {
-              const target = e.target as HTMLImageElement;
-              target.src = '/placeholder.svg';
-            }}
-          />
-        )}
       </div>
       <div className="p-4">
         <h3 className="text-lg font-semibold text-brand-navy">{product.name}</h3>
