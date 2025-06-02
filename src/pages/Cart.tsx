@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '@/contexts/CartContext';
@@ -20,6 +19,7 @@ const Cart: React.FC = () => {
   const { cartItems, removeFromCart, updateQuantity, getCartTotal, clearCart } = useCart();
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
   const [showAddressForm, setShowAddressForm] = useState(false);
+  const [showAddressError, setShowAddressError] = useState(false);
   const [newAddress, setNewAddress] = useState<Address>({
     customerName: '',
     flatNo: '',
@@ -62,6 +62,7 @@ const Cart: React.FC = () => {
   };
 
   const handleAddressSelect = (value: string) => {
+    setShowAddressError(false); // Hide error when address is selected
     if (value === 'new') {
       setShowAddressForm(true);
       setSelectedAddress(null);
@@ -76,6 +77,7 @@ const Cart: React.FC = () => {
     if (newAddress.customerName && newAddress.flatNo && newAddress.building && newAddress.area && newAddress.city && newAddress.pinCode) {
       setSelectedAddress(newAddress);
       setShowAddressForm(false);
+      setShowAddressError(false);
       // Reset form
       setNewAddress({
         customerName: '',
@@ -89,7 +91,10 @@ const Cart: React.FC = () => {
   };
 
   const handleBuyOnWhatsApp = () => {
-    if (!selectedAddress) return;
+    if (!selectedAddress) {
+      setShowAddressError(true);
+      return;
+    }
 
     // Construct WhatsApp message with order details and address
     const message = `Hello! I would like to place an order:
@@ -234,6 +239,13 @@ Please confirm my order. Thank you!`;
                 </SelectContent>
               </Select>
 
+              {/* Address Error Message */}
+              {showAddressError && (
+                <div className="mt-2 p-2 border border-red-300 rounded bg-red-50 text-sm text-red-600">
+                  Please fill the address to proceed
+                </div>
+              )}
+
               {selectedAddress && !showAddressForm && (
                 <div className="mt-2 p-2 border rounded bg-gray-50 text-sm">
                   <p><span className="font-medium">Customer:</span> {selectedAddress.customerName}</p>
@@ -316,7 +328,6 @@ Please confirm my order. Thank you!`;
             
             <Button 
               onClick={handleBuyOnWhatsApp}
-              disabled={!selectedAddress}
               className={`w-full flex items-center justify-center gap-2 ${
                 selectedAddress 
                   ? 'bg-green-500 hover:bg-green-600 text-white' 
