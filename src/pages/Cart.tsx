@@ -31,22 +31,7 @@ const Cart: React.FC = () => {
 
   // Sample saved addresses (in a real app, this would come from user data)
   const savedAddresses: Address[] = [
-    {
-      customerName: "John Doe",
-      flatNo: "101",
-      building: "Sunrise Apartments",
-      area: "Banjara Hills",
-      city: "Hyderabad",
-      pinCode: "500034"
-    },
-    {
-      customerName: "Jane Smith",
-      flatNo: "205",
-      building: "Green Valley",
-      area: "Jubilee Hills",
-      city: "Hyderabad",
-      pinCode: "500033"
-    }
+    
   ];
 
   const handleQuantityChange = (
