@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '@/contexts/CartContext';
@@ -8,6 +9,7 @@ import { Label } from '@/components/ui/label';
 
 interface Address {
   customerName: string;
+  mobileNumber: string;
   flatNo: string;
   building: string;
   area: string;
@@ -22,6 +24,7 @@ const Cart: React.FC = () => {
   const [showAddressError, setShowAddressError] = useState(false);
   const [newAddress, setNewAddress] = useState<Address>({
     customerName: '',
+    mobileNumber: '',
     flatNo: '',
     building: '',
     area: '',
@@ -59,13 +62,14 @@ const Cart: React.FC = () => {
   };
 
   const handleNewAddressSubmit = () => {
-    if (newAddress.customerName && newAddress.flatNo && newAddress.building && newAddress.area && newAddress.city && newAddress.pinCode) {
+    if (newAddress.customerName && newAddress.mobileNumber && newAddress.flatNo && newAddress.building && newAddress.area && newAddress.city && newAddress.pinCode) {
       setSelectedAddress(newAddress);
       setShowAddressForm(false);
       setShowAddressError(false);
       // Reset form
       setNewAddress({
         customerName: '',
+        mobileNumber: '',
         flatNo: '',
         building: '',
         area: '',
@@ -85,6 +89,7 @@ const Cart: React.FC = () => {
     const message = `Hello! I would like to place an order:
 
 Customer Name: ${selectedAddress.customerName}
+WhatsApp Number: ${selectedAddress.mobileNumber}
 
 Order Details:
 ${cartItems.map(item => 
@@ -234,6 +239,7 @@ Please confirm my order. Thank you!`;
               {selectedAddress && !showAddressForm && (
                 <div className="mt-2 p-2 border rounded bg-gray-50 text-sm">
                   <p><span className="font-medium">Customer:</span> {selectedAddress.customerName}</p>
+                  <p><span className="font-medium">Mobile:</span> {selectedAddress.mobileNumber}</p>
                   <p><span className="font-medium">Address:</span> {selectedAddress.flatNo}, {selectedAddress.building}</p>
                   <p><span className="font-medium">Area:</span> {selectedAddress.area}</p>
                   <p><span className="font-medium">City:</span> {selectedAddress.city}</p>
@@ -250,6 +256,16 @@ Please confirm my order. Thank you!`;
                       value={newAddress.customerName}
                       onChange={(e) => setNewAddress({...newAddress, customerName: e.target.value})}
                       placeholder="Your full name"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="mobileNumber">WhatsApp Mobile Number</Label>
+                    <Input
+                      id="mobileNumber"
+                      value={newAddress.mobileNumber}
+                      onChange={(e) => setNewAddress({...newAddress, mobileNumber: e.target.value})}
+                      placeholder="Your WhatsApp number"
+                      type="tel"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-2">
