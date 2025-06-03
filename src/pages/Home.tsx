@@ -27,6 +27,29 @@ const Home: React.FC = () => {
         </div>
       </section>
 
+      {/* Delivery Highlights Section */}
+      <section className="bg-brand-navy py-8">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-8 text-center">
+            <div className="flex items-center gap-3">
+              <div className="text-3xl">🚚</div>
+              <div>
+                <h3 className="text-xl font-bold text-white">All Over India Delivery</h3>
+                <p className="text-brand-yellow">We deliver nationwide!</p>
+              </div>
+            </div>
+            <div className="hidden md:block w-px h-12 bg-brand-yellow"></div>
+            <div className="flex items-center gap-3">
+              <div className="text-3xl">🎁</div>
+              <div>
+                <h3 className="text-xl font-bold text-white">Free Delivery</h3>
+                <p className="text-brand-yellow">On your first order!</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Category Section */}
       <section className="py-16 bg-brand-beige">
         <div className="container mx-auto px-4">
