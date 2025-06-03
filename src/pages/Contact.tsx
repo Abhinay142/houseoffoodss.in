@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { Phone, Mail, Instagram } from 'lucide-react';
 
@@ -59,7 +60,7 @@ const Contact: React.FC = () => {
                 <h3 className="text-xl font-semibold text-brand-navy mb-2">Follow Us</h3>
                 <p className="text-gray-600 mb-4">Get exclusive offers & updates!</p>
                 <a 
-                  href="#" 
+                  href="https://www.instagram.com/houseoffoods.in/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="text-brand-yellow hover:text-brand-navy font-semibold text-lg transition-colors"
@@ -85,3 +86,4 @@ const Contact: React.FC = () => {
 };
 
 export default Contact;
+
