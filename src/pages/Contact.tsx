@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Phone, Mail } from 'lucide-react';
+import { Phone, Mail, Instagram } from 'lucide-react';
 
 const Contact: React.FC = () => {
   return (
@@ -18,7 +18,7 @@ const Contact: React.FC = () => {
               </p>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
               <div className="text-center p-8 bg-brand-beige rounded-lg">
                 <div className="flex justify-center mb-4">
                   <svg className="w-12 h-12 text-brand-yellow" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -50,6 +50,25 @@ const Contact: React.FC = () => {
                 >
                   houseoffoods.in@gmail.com
                 </a>
+              </div>
+
+              <div className="text-center p-8 bg-brand-beige rounded-lg">
+                <div className="flex justify-center mb-4">
+                  <Instagram className="w-12 h-12 text-brand-yellow" />
+                </div>
+                <h3 className="text-xl font-semibold text-brand-navy mb-2">Follow Us</h3>
+                <p className="text-gray-600 mb-4">Get exclusive offers & updates!</p>
+                <a 
+                  href="#" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-brand-yellow hover:text-brand-navy font-semibold text-lg transition-colors"
+                >
+                  @houseoffoods
+                </a>
+                <p className="text-sm text-gray-500 mt-2">
+                  🎉 Special deals, behind-the-scenes & more!
+                </p>
               </div>
             </div>
             
