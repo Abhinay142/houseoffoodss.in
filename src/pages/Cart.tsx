@@ -21,7 +21,7 @@ const Cart: React.FC = () => {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [showAddressError, setShowAddressError] = useState(false);
   const [newAddress, setNewAddress] = useState<Address>({
-    customerName: ''
+    customerName: '',
     flatNo: '',
     building: '',
     area: '',
