@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Plus } from 'lucide-react';
@@ -11,7 +12,8 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const [selectedSize, setSelectedSize] = useState<'250g' | '500g' | '1kg'>('250g');
+  const availableSizes = Object.keys(product.prices).filter(size => product.prices[size as keyof typeof product.prices] !== undefined) as ('250g' | '500g' | '1kg')[];
+  const [selectedSize, setSelectedSize] = useState<'250g' | '500g' | '1kg'>(availableSizes[0]);
   const [quantity, setQuantity] = useState(1);
   const [showQuantity, setShowQuantity] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -80,6 +82,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     return isHovered && product.hoverImage ? product.hoverImage : product.image;
   };
 
+  // Get piece count for Bobbatlu
+  const getPieceCount = (size: string) => {
+    if (product.id === 'bobbatlu') {
+      if (size === '500g') return '7-8 pieces';
+      if (size === '1kg') return '15 pieces';
+    }
+    return null;
+  };
+
   return (
     <div className="product-card bg-white rounded-lg shadow-md overflow-hidden relative">
       <div 
@@ -109,7 +120,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="mt-4">
           <p className="text-sm text-gray-600 font-medium">Size:</p>
           <div className="flex space-x-2 mt-1">
-            {Object.keys(product.prices).map((size) => (
+            {availableSizes.map((size) => (
               <button
                 key={size}
                 className={`px-3 py-1 text-xs rounded-full ${
@@ -117,12 +128,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                     ? 'bg-brand-yellow text-brand-navy font-semibold' 
                     : 'bg-gray-100 text-gray-700'
                 }`}
-                onClick={() => setSelectedSize(size as '250g' | '500g' | '1kg')}
+                onClick={() => setSelectedSize(size)}
               >
                 {size}
               </button>
             ))}
           </div>
+          {getPieceCount(selectedSize) && (
+            <p className="text-xs text-gray-500 mt-1">({getPieceCount(selectedSize)})</p>
+          )}
         </div>
         
         <div className="flex items-center justify-between mt-4">
@@ -152,6 +166,14 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <p className="text-lg font-semibold text-brand-navy">₹{product.prices[selectedSize]}</p>
           </div>
         </div>
+
+        {product.id === 'bobbatlu' && (
+          <div className="mt-3 p-2 bg-orange-50 border border-orange-200 rounded-md">
+            <p className="text-xs text-orange-700 font-medium">
+              ⚠️ Available only for delivery within Hyderabad
+            </p>
+          </div>
+        )}
         
         <Button 
           className="w-full mt-4 bg-brand-yellow hover:bg-yellow-500 text-brand-navy flex items-center justify-center gap-2"

@@ -5,7 +5,7 @@ export interface Product {
   category: 'sweets' | 'savouries';
   ingredients: string[];
   prices: {
-    '250g': number;
+    '250g'?: number;
     '500g': number;
     '1kg': number;
   };
@@ -105,6 +105,17 @@ export const products: Product[] = [
     },
     image: '/lovable-uploads/7440753b-a4d0-410d-b3f4-e4eb9e5a849a.png',
     hoverImage: '/lovable-uploads/a4618811-349e-4872-b860-962127f1b626.png'
+  },
+  {
+    id: 'bobbatlu',
+    name: 'Bobbatlu',
+    category: 'sweets',
+    ingredients: ['Chickpeas', 'Jaggery', 'Maida', 'Ghee', 'Elaichi'],
+    prices: {
+      '500g': 300,
+      '1kg': 500
+    },
+    image: '/lovable-uploads/9b088bc9-c219-4ef3-9a15-63f5fd212fc0.png'
   },
   
   // Savouries
