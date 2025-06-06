@@ -6,6 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { toast } from '@/hooks/use-toast';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 
 interface Address {
   customerName: string;
@@ -17,25 +22,42 @@ interface Address {
   pinCode: string;
 }
 
+// Form validation schema
+const addressFormSchema = z.object({
+  customerName: z.string().min(2, { message: "Name must be at least 2 characters" })
+    .regex(/^[a-zA-Z\s]*$/, { message: "Name must contain only alphabets" }),
+  mobileNumber: z.string()
+    .regex(/^\d{10}$/, { message: "Mobile number must be 10 digits" }),
+  flatNo: z.string().min(1, { message: "Flat/House No. is required" }),
+  building: z.string().min(1, { message: "Building/Society is required" }),
+  area: z.string().min(1, { message: "Area/Locality is required" }),
+  city: z.string().min(1, { message: "City is required" }),
+  pinCode: z.string()
+    .regex(/^\d{6}$/, { message: "PIN code must be 6 digits" })
+});
+
 const Cart: React.FC = () => {
   const { cartItems, removeFromCart, updateQuantity, getCartTotal, clearCart } = useCart();
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [showAddressError, setShowAddressError] = useState(false);
-  const [newAddress, setNewAddress] = useState<Address>({
-    customerName: '',
-    mobileNumber: '',
-    flatNo: '',
-    building: '',
-    area: '',
-    city: '',
-    pinCode: ''
-  });
 
   // Sample saved addresses (in a real app, this would come from user data)
-  const savedAddresses: Address[] = [
-    
-  ];
+  const savedAddresses: Address[] = [];
+
+  // Initialize form with react-hook-form
+  const form = useForm<z.infer<typeof addressFormSchema>>({
+    resolver: zodResolver(addressFormSchema),
+    defaultValues: {
+      customerName: '',
+      mobileNumber: '',
+      flatNo: '',
+      building: '',
+      area: '',
+      city: '',
+      pinCode: ''
+    },
+  });
 
   const handleQuantityChange = (
     productId: string, 
@@ -61,22 +83,27 @@ const Cart: React.FC = () => {
     }
   };
 
-  const handleNewAddressSubmit = () => {
-    if (newAddress.customerName && newAddress.mobileNumber && newAddress.flatNo && newAddress.building && newAddress.area && newAddress.city && newAddress.pinCode) {
-      setSelectedAddress(newAddress);
-      setShowAddressForm(false);
-      setShowAddressError(false);
-      // Reset form
-      setNewAddress({
-        customerName: '',
-        mobileNumber: '',
-        flatNo: '',
-        building: '',
-        area: '',
-        city: '',
-        pinCode: ''
-      });
-    }
+  const handleNewAddressSubmit = (data: z.infer<typeof addressFormSchema>) => {
+    const newAddress: Address = {
+      customerName: data.customerName,
+      mobileNumber: data.mobileNumber,
+      flatNo: data.flatNo,
+      building: data.building,
+      area: data.area,
+      city: data.city,
+      pinCode: data.pinCode
+    };
+    
+    setSelectedAddress(newAddress);
+    setShowAddressForm(false);
+    setShowAddressError(false);
+    toast({
+      title: "Address saved",
+      description: "Your delivery address has been saved successfully."
+    });
+    
+    // Reset form
+    form.reset();
   };
 
   const handleBuyOnWhatsApp = () => {
@@ -248,82 +275,140 @@ Please confirm my order. Thank you!`;
               )}
 
               {showAddressForm && (
-                <div className="mt-4 space-y-3">
-                  <div>
-                    <Label htmlFor="customerName">Customer Name</Label>
-                    <Input
-                      id="customerName"
-                      value={newAddress.customerName}
-                      onChange={(e) => setNewAddress({...newAddress, customerName: e.target.value})}
-                      placeholder="Your full name"
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(handleNewAddressSubmit)} className="mt-4 space-y-3">
+                    <FormField
+                      control={form.control}
+                      name="customerName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Customer Name</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Your full name"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </div>
-                  <div>
-                    <Label htmlFor="mobileNumber">WhatsApp Mobile Number</Label>
-                    <Input
-                      id="mobileNumber"
-                      value={newAddress.mobileNumber}
-                      onChange={(e) => setNewAddress({...newAddress, mobileNumber: e.target.value})}
-                      placeholder="Your WhatsApp number"
-                      type="tel"
+                    
+                    <FormField
+                      control={form.control}
+                      name="mobileNumber"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>WhatsApp Mobile Number</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Your WhatsApp number"
+                              type="tel"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <Label htmlFor="flatNo">Flat/House No.</Label>
-                      <Input
-                        id="flatNo"
-                        value={newAddress.flatNo}
-                        onChange={(e) => setNewAddress({...newAddress, flatNo: e.target.value})}
-                        placeholder="Flat/House Number"
+                    
+                    <div className="grid grid-cols-2 gap-2">
+                      <FormField
+                        control={form.control}
+                        name="flatNo"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Flat/House No.</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Flat/House Number"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="building"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Building/Society</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Building/Society"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
                       />
                     </div>
-                    <div>
-                      <Label htmlFor="building">Building/Society</Label>
-                      <Input
-                        id="building"
-                        value={newAddress.building}
-                        onChange={(e) => setNewAddress({...newAddress, building: e.target.value})}
-                        placeholder="Building/Society"
-                      />
-                    </div>
-                  </div>
-                  <div>
-                    <Label htmlFor="area">Area/Locality</Label>
-                    <Input
-                      id="area"
-                      value={newAddress.area}
-                      onChange={(e) => setNewAddress({...newAddress, area: e.target.value})}
-                      placeholder="Area/Locality"
+                    
+                    <FormField
+                      control={form.control}
+                      name="area"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Area/Locality</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Area/Locality"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </div>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <Label htmlFor="city">City</Label>
-                      <Input
-                        id="city"
-                        value={newAddress.city}
-                        onChange={(e) => setNewAddress({...newAddress, city: e.target.value})}
-                        placeholder="City"
+                    
+                    <div className="grid grid-cols-2 gap-2">
+                      <FormField
+                        control={form.control}
+                        name="city"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>City</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="City"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="pinCode"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>PIN Code</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="PIN Code"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
                       />
                     </div>
-                    <div>
-                      <Label htmlFor="pinCode">PIN Code</Label>
-                      <Input
-                        id="pinCode"
-                        value={newAddress.pinCode}
-                        onChange={(e) => setNewAddress({...newAddress, pinCode: e.target.value})}
-                        placeholder="PIN Code"
-                      />
-                    </div>
-                  </div>
-                  <Button 
-                    className="w-full"
-                    onClick={handleNewAddressSubmit}
-                  >
-                    Save Address
-                  </Button>
-                </div>
+                    
+                    <Button 
+                      type="submit"
+                      className="w-full"
+                    >
+                      Save Address
+                    </Button>
+                  </form>
+                </Form>
               )}
             </div>
             

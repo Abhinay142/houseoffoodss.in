@@ -1,5 +1,4 @@
 
-
 import React from 'react';
 import { Phone, Mail, Instagram } from 'lucide-react';
 
@@ -47,7 +46,7 @@ const Contact: React.FC = () => {
                 <p className="text-gray-600 mb-4">Send us a message</p>
                 <a 
                   href="mailto:houseoffoods.in@gmail.com"
-                  className="text-brand-yellow hover:text-brand-navy font-semibold text-lg transition-colors"
+                  className="text-brand-yellow hover:text-brand-navy font-semibold text-lg transition-colors break-all"
                 >
                   houseoffoods.in@gmail.com
                 </a>
@@ -65,7 +64,7 @@ const Contact: React.FC = () => {
                   rel="noopener noreferrer"
                   className="text-brand-yellow hover:text-brand-navy font-semibold text-lg transition-colors"
                 >
-                  @houseoffoods
+                  @houseoffoods.in
                 </a>
                 <p className="text-sm text-gray-500 mt-2">
                   🎉 Special deals, behind-the-scenes & more!
@@ -86,4 +85,3 @@ const Contact: React.FC = () => {
 };
 
 export default Contact;
-
