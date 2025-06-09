@@ -43,7 +43,7 @@ const Home: React.FC = () => {
               <div className="text-3xl">🎁</div>
               <div>
                 <h3 className="text-xl font-bold text-white">Free Delivery</h3>
-                <p className="text-brand-yellow">On your first order!</p>
+                <p className="text-brand-yellow">On orders above ₹1,199!</p>
               </div>
             </div>
           </div>
