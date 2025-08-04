@@ -7,6 +7,18 @@ import ProductCarousel from '@/components/ProductCarousel';
 
 const Home: React.FC = () => {
   return <div>
+      {/* Rakhi Offer Banner */}
+      <div className="bg-gradient-to-r from-pink-500 to-orange-500 text-white py-2 overflow-hidden">
+        <div className="animate-scroll whitespace-nowrap">
+          <span className="inline-block px-8 text-sm font-medium">
+            🎉 RAKHI SPECIAL: Get a 250gm sweet of your choice for FREE on orders above ₹699! Offer valid from 5th-15th August 🎉
+          </span>
+          <span className="inline-block px-8 text-sm font-medium">
+            🎉 RAKHI SPECIAL: Get a 250gm sweet of your choice for FREE on orders above ₹699! Offer valid from 5th-15th August 🎉
+          </span>
+        </div>
+      </div>
+
       {/* Hero Section */}
       <section className="bg-brand-yellow py-16">
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">

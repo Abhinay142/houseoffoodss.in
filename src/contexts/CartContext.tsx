@@ -6,16 +6,19 @@ export type CartItem = {
   product: Product;
   quantity: number;
   size: '250g' | '500g' | '1kg';
+  isFree?: boolean;
 };
 
 type CartContextType = {
   cartItems: CartItem[];
-  addToCart: (product: Product, quantity: number, size: '250g' | '500g' | '1kg') => void;
+  addToCart: (product: Product, quantity: number, size: '250g' | '500g' | '1kg', isFree?: boolean) => void;
   removeFromCart: (productId: string, size: '250g' | '500g' | '1kg') => void;
   updateQuantity: (productId: string, size: '250g' | '500g' | '1kg', quantity: number) => void;
   clearCart: () => void;
   getCartTotal: () => number;
   getCartCount: () => number;
+  isEligibleForFreeSweet: () => boolean;
+  getFreeSweet: () => CartItem | null;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -23,11 +26,11 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
 
-  const addToCart = (product: Product, quantity: number, size: '250g' | '500g' | '1kg') => {
+  const addToCart = (product: Product, quantity: number, size: '250g' | '500g' | '1kg', isFree: boolean = false) => {
     setCartItems(prevItems => {
       // Check if item already exists in cart
       const existingItemIndex = prevItems.findIndex(
-        item => item.product.id === product.id && item.size === size
+        item => item.product.id === product.id && item.size === size && item.isFree === isFree
       );
 
       if (existingItemIndex !== -1) {
@@ -37,7 +40,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         return updatedItems;
       } else {
         // Add new item
-        return [...prevItems, { product, quantity, size }];
+        return [...prevItems, { product, quantity, size, isFree }];
       }
     });
   };
@@ -64,9 +67,18 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
   const getCartTotal = () => {
     return cartItems.reduce((total, item) => {
+      if (item.isFree) return total;
       const price = item.product.prices[item.size];
       return total + price * item.quantity;
     }, 0);
+  };
+
+  const isEligibleForFreeSweet = () => {
+    return getCartTotal() >= 699;
+  };
+
+  const getFreeSweet = () => {
+    return cartItems.find(item => item.isFree) || null;
   };
 
   const getCartCount = () => {
@@ -82,7 +94,9 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         updateQuantity, 
         clearCart, 
         getCartTotal,
-        getCartCount 
+        getCartCount,
+        isEligibleForFreeSweet,
+        getFreeSweet
       }}
     >
       {children}

@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCart } from '@/contexts/CartContext';
 import { Button } from '@/components/ui/button';
@@ -11,6 +11,7 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { products } from '@/data/products';
 
 interface Address {
   customerName: string;
@@ -37,13 +38,44 @@ const addressFormSchema = z.object({
 });
 
 const Cart: React.FC = () => {
-  const { cartItems, removeFromCart, updateQuantity, getCartTotal, clearCart } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, getCartTotal, clearCart, addToCart, isEligibleForFreeSweet, getFreeSweet } = useCart();
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [showAddressError, setShowAddressError] = useState(false);
+  const [selectedFreeSweet, setSelectedFreeSweet] = useState<string>('');
+
+  // Get sweets that have 250g option
+  const availableSweets = products.filter(product => 
+    product.category === 'sweets' && product.prices['250g'] !== undefined
+  );
 
   // Sample saved addresses (in a real app, this would come from user data)
   const savedAddresses: Address[] = [];
+
+  // Handle free sweet selection
+  useEffect(() => {
+    if (isEligibleForFreeSweet() && selectedFreeSweet && !getFreeSweet()) {
+      const selectedProduct = availableSweets.find(product => product.id === selectedFreeSweet);
+      if (selectedProduct) {
+        addToCart(selectedProduct, 1, '250g', true);
+        toast({
+          title: "Free sweet added!",
+          description: `${selectedProduct.name} (250g) has been added as your free Rakhi special sweet!`,
+        });
+      }
+    } else if (!isEligibleForFreeSweet() && getFreeSweet()) {
+      // Remove free sweet if cart total is below threshold
+      const freeSweet = getFreeSweet();
+      if (freeSweet) {
+        removeFromCart(freeSweet.product.id, freeSweet.size);
+        setSelectedFreeSweet('');
+        toast({
+          title: "Free sweet removed",
+          description: "Cart total is below ₹699. Free sweet has been removed.",
+        });
+      }
+    }
+  }, [getCartTotal(), selectedFreeSweet, isEligibleForFreeSweet, getFreeSweet, addToCart, removeFromCart, availableSweets, toast]);
 
   // Initialize form with react-hook-form
   const form = useForm<z.infer<typeof addressFormSchema>>({
@@ -119,9 +151,11 @@ Customer Name: ${selectedAddress.customerName}
 WhatsApp Number: ${selectedAddress.mobileNumber}
 
 Order Details:
-${cartItems.map(item => 
-  `• ${item.product.name} (${item.size}) - Qty: ${item.quantity} - ₹${item.product.prices[item.size] * item.quantity}`
-).join('\n')}
+${cartItems.map(item => {
+  const price = item.isFree ? 0 : item.product.prices[item.size] * item.quantity;
+  const freeLabel = item.isFree ? ' (FREE - Rakhi Special)' : '';
+  return `• ${item.product.name} (${item.size}) - Qty: ${item.quantity} - ₹${price}${freeLabel}`;
+}).join('\n')}
 
 Total Amount: ₹${getCartTotal()}
 
@@ -198,15 +232,25 @@ Please confirm my order. Thank you!`;
                     +
                   </button>
                 </div>
-                <div className="text-right ml-4">
-                  <p className="text-lg font-semibold text-brand-navy">₹{item.product.prices[item.size] * item.quantity}</p>
-                  <button 
-                    className="text-sm text-red-500 mt-1"
-                    onClick={() => removeFromCart(item.product.id, item.size)}
-                  >
-                    Remove
-                  </button>
-                </div>
+                 <div className="text-right ml-4">
+                   {item.isFree ? (
+                     <div>
+                       <p className="text-lg font-semibold text-brand-navy line-through text-gray-400">₹{item.product.prices[item.size] * item.quantity}</p>
+                       <p className="text-lg font-semibold text-green-600">₹0 (FREE)</p>
+                       <p className="text-xs text-pink-600 font-medium">Rakhi Special</p>
+                     </div>
+                   ) : (
+                     <p className="text-lg font-semibold text-brand-navy">₹{item.product.prices[item.size] * item.quantity}</p>
+                   )}
+                   {!item.isFree && (
+                     <button 
+                       className="text-sm text-red-500 mt-1"
+                       onClick={() => removeFromCart(item.product.id, item.size)}
+                     >
+                       Remove
+                     </button>
+                   )}
+                 </div>
               </div>
             ))}
             <div className="flex justify-between items-center mt-6 pt-6 border-t">
@@ -233,14 +277,40 @@ Please confirm my order. Thank you!`;
                 <span className="text-gray-600">Items ({cartItems.reduce((count, item) => count + item.quantity, 0)})</span>
                 <span className="font-medium">₹{getCartTotal()}</span>
               </div>
-              <div className="flex justify-between text-lg font-semibold text-brand-navy pt-2 border-t">
-                <span>Total</span>
-                <span>₹{getCartTotal()}</span>
-              </div>
+               {isEligibleForFreeSweet() && (
+                 <div className="flex justify-between text-green-600 font-medium">
+                   <span>Free Sweet (Rakhi Special)</span>
+                   <span>-₹{getFreeSweet()?.product.prices['250g'] || 0}</span>
+                 </div>
+               )}
+               <div className="flex justify-between text-lg font-semibold text-brand-navy pt-2 border-t">
+                 <span>Total</span>
+                 <span>₹{getCartTotal()}</span>
+               </div>
             </div>
 
-            {/* Address Selection */}
-            <div className="mb-6">
+             {/* Free Sweet Selection */}
+             {isEligibleForFreeSweet() && !getFreeSweet() && (
+               <div className="mb-6">
+                 <Label className="block mb-2 font-medium text-pink-600">🎉 Choose Your Free Sweet (Rakhi Special)</Label>
+                 <Select value={selectedFreeSweet} onValueChange={setSelectedFreeSweet}>
+                   <SelectTrigger className="w-full border-pink-300">
+                     <SelectValue placeholder="Select your free 250gm sweet" />
+                   </SelectTrigger>
+                   <SelectContent>
+                     {availableSweets.map((sweet) => (
+                       <SelectItem key={sweet.id} value={sweet.id}>
+                         {sweet.name} - ₹{sweet.prices['250g']} (FREE)
+                       </SelectItem>
+                     ))}
+                   </SelectContent>
+                 </Select>
+                 <p className="text-xs text-pink-600 mt-1">Valid till 15th August</p>
+               </div>
+             )}
+
+             {/* Address Selection */}
+             <div className="mb-6">
               <Label className="block mb-2 font-medium">Delivery Address</Label>
               <Select onValueChange={handleAddressSelect}>
                 <SelectTrigger className="w-full">
