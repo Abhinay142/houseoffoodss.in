@@ -17,8 +17,6 @@ type CartContextType = {
   clearCart: () => void;
   getCartTotal: () => number;
   getCartCount: () => number;
-  isEligibleForFreeSweet: () => boolean;
-  getFreeSweet: () => CartItem | null;
 };
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -73,13 +71,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }, 0);
   };
 
-  const isEligibleForFreeSweet = () => {
-    return getCartTotal() >= 699;
-  };
-
-  const getFreeSweet = () => {
-    return cartItems.find(item => item.isFree) || null;
-  };
 
   const getCartCount = () => {
     return cartItems.reduce((count, item) => count + item.quantity, 0);
@@ -94,9 +85,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         updateQuantity, 
         clearCart, 
         getCartTotal,
-        getCartCount,
-        isEligibleForFreeSweet,
-        getFreeSweet
+        getCartCount
       }}
     >
       {children}

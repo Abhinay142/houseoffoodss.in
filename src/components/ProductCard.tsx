@@ -167,12 +167,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </div>
         </div>
 
-        {/* Rakhi Offer Note */}
-        <div className="mt-3 p-2 bg-gradient-to-r from-pink-50 to-orange-50 border border-pink-200 rounded-md">
-          <p className="text-xs text-pink-700 font-medium">
-            🎉 Rakhi Special: Get a FREE 250gm sweet on orders above ₹699! (5th-15th Aug)
-          </p>
-        </div>
 
         {product.id === 'bobbatlu' && (
           <div className="mt-3 p-2 bg-orange-50 border border-orange-200 rounded-md">
